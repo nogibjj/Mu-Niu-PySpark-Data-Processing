@@ -34,7 +34,7 @@ def spark_sql_query(spark: SparkSession, data: DataFrame):
     return result
 
 
-def transform(spark: SparkSession, data: DataFrame) -> DataFrame:
+def transform(data: DataFrame) -> DataFrame:
     conditions = [
         (F.col("attendance_rate") < 50, "Low"),
         ((F.col("attendance_rate") >= 50) & (F.col("attendance_rate") < 80), "Medium"),
