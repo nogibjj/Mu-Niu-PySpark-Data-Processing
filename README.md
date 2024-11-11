@@ -3,6 +3,12 @@
 # Mu-Niu-PySpark-Data-Processing
 
 
+## Project Summary:
+
+This repository provides a set of PySpark utilities for processing and analyzing data using Spark SQL and transformations. It includes functions for initializing a Spark session, reading CSV files into DataFrames, executing SQL queries on Spark DataFrames, and applying transformations to categorize data based on specified conditions.
+
+
+
 ## Project Functionalities
 
 1. Read CSV
