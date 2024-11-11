@@ -1,34 +1,76 @@
-# Rust Project
+[![CI/CD](https://github.com/nogibjj/Mu-Niu-PySpark-Data-Processing/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/Mu-Niu-PySpark-Data-Processing/actions/workflows/CI.yml)
+
+# Mu-Niu-PySpark-Data-Processing
 
 
-## Project Structure
+## Project Functionalities
 
-- **psr/src/main.rs**: The main script that uses the library functions and outputs results.
-- **psr/src/lib.rs**: Contains core functions like create/drop table, load data and execute queries.
-- **Makefile**: Automates tasks like building, testing, and linting.
-- **Cargo.toml**: Project dependencies and settings for Rust.
+1. Read CSV
 
+Show Original Dataset
 
-
-  
-## Automated Tasks
-
-  - `make build`: Compiles the Rust code.
-  - `make test`: Runs the tests in `lib.rs`.
-  - `make lint`: Lints the code using `cargo clippy`.
-  - `make format`: Formats code using `cargo fmt`.
-
-Below is an image showing tools used for this project, including check, format, lint, test, release, and a help menu for the CLI tool.
-
-![Alt text](data/workflow.png)
-
-
-In order to use our CLI normally, we have to run this in our terminal:
-
-```{r}
-export PATH=$PATH:/PATH TO YOUR REPO/sqlite/target/release
+```Python
+def read_csv(session: SparkSession, file_path: str) -> DataFrame:
+    # read csv
+    data_file = session.read.csv(file_path, header=True, inferSchema=True)
+    return data_file
 ```
 
-#### Binary Download Link
 
-https://github.com/nogibjj/Mu-Niu-Python-Script-Rust/actions/runs/11493330152/artifacts/2097270549
+![Alt text](images/original.png)
+
+
+
+2. Spark SQL Query
+
+Show Queried Data: get the name and attendance rate of students who got higher than 80 in final grade
+
+```Python
+def spark_sql_query(spark: SparkSession, data: DataFrame):
+    data.createOrReplaceTempView("performance")
+
+    result = spark.sql(
+        """
+        SELECT name, 
+               attendance_rate
+        FROM performance
+        WHERE final_grade > 80
+    """
+    )
+    result.show()
+    return result
+```
+
+
+![Alt text](images/query.png)
+
+
+
+3. Transformation
+
+Show Categorized Data: categorize the attendance rate into 3 categories based on predefined thresholds
+
+```Python
+def transform(data: DataFrame) -> DataFrame:
+    conditions = [
+        (F.col("attendance_rate") < 50, "Low"),
+        ((F.col("attendance_rate") >= 50) & (F.col("attendance_rate") < 80), "Medium"),
+        (F.col("attendance_rate") >= 80, "High"),
+    ]
+
+    return data.withColumn(
+        "attendance_category",
+        F.when(conditions[0][0], conditions[0][1])
+        .when(conditions[1][0], conditions[1][1])
+        .otherwise(conditions[2][1]),
+    )
+```
+
+
+![Alt text](images/categorized.png)
+
+
+
+
+
+
