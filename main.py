@@ -16,6 +16,6 @@ if __name__ == "__main__":
     spark_sql_query(spark, df)
 
     # show data after categorized
-    df_with_category = transform(spark, df)
+    df_with_category = transform(df)
     print("Data After Adding Attendance Category:")
     df_with_category.show()

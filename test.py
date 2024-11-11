@@ -53,7 +53,7 @@ def test_transform():
     df = spark.createDataFrame(sample_data)
 
     # call function
-    result_df = transform(spark, df)
+    result_df = transform(df)
 
     categories = [row["attendance_category"] for row in result_df.collect()]
     expected_categories = ["Low", "Medium", "High"]
