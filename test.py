@@ -27,10 +27,10 @@ def test_spark_sql_query():
     # expected df
     expected_data = [
         Row(name="Sarah", attendance_rate=90),
-        Row(species="Michael", attendance_rate=92),
-        Row(species="Emma", attendance_rate=88),
-        Row(species="Olivia", attendance_rate=95),
-        Row(species="Isabella", attendance_rate=91),
+        Row(name="Michael", attendance_rate=92),
+        Row(name="Emma", attendance_rate=88),
+        Row(name="Olivia", attendance_rate=95),
+        Row(name="Isabella", attendance_rate=91),
     ]
 
     expected_df = spark.createDataFrame(expected_data)
@@ -46,7 +46,7 @@ def test_transform():
 
     # Sample data for testing
     sample_data = [
-        Row(attendance_rate=50),
+        Row(attendance_rate=40),
         Row(attendance_rate=60),
         Row(attendance_rate=90),
     ]
